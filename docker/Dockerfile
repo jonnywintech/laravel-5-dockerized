@@ -26,7 +26,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 WORKDIR /var/www/html
 
 # Copy existing application directory contents
-COPY . /var/www/html
+# COPY . /var/www/html
 
 # Create Laravel directories if they don't exist
 RUN mkdir -p /var/www/html/storage/logs \
@@ -39,6 +39,12 @@ RUN mkdir -p /var/www/html/storage/logs \
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 777 /var/www/html/
 
+
+RUN usermod -u 1000 www-data \
+    && groupmod -g 1000 www-data \
+    && usermod -aG www-data root
+
 ENTRYPOINT ["start-container"]
 
 CMD ["apache2-foreground"]
+

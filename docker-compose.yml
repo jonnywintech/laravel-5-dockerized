@@ -5,8 +5,10 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile
+      args:
+          WWWGROUP: '${WWWGROUP}'
     ports:
-      - "8080:80"
+      - '${APP_PORT:-8080}:80'
     volumes:
       - .:/var/www/html
     depends_on:
@@ -20,7 +22,7 @@ services:
   db:
     image: mysql:5.7
     ports:
-      - "3306:3306"
+      - '${DB_PORT:-3306}:3306'
     environment:
       MYSQL_DATABASE: laravel
       MYSQL_USER: laraveluser
